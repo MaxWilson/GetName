@@ -7,14 +7,14 @@ let main args =
             let path = System.IO.Path.GetFullPath path
             let asm = System.Reflection.Assembly.LoadFrom path
             asm.FullName
-        with _ -> $"Invalid path: '{path}'"
+        with err -> $"Invalid path: '{path}' / {err}"
     match args |> List.ofArray with
     | [] -> printfn "Usage: getName <pathsToDlls>"
     | ["read"] ->
         let rec loop() =
             let line = Console.ReadLine()
-            if line != null && line.Length > 0 then
-                printfn $"::{line|>getName}"
+            if (not (line = null)) && line.Length > 0 then
+                printfn $"{line|>getName}"
                 loop()
         loop()
     | paths ->
