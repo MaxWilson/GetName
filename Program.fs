@@ -6,18 +6,18 @@ let main args =
         try
             let path = System.IO.Path.GetFullPath path
             let asm = System.Reflection.Assembly.ReflectionOnlyLoadFrom path
-            asm.FullName
-        with err -> $"Invalid path: '{path}' / {err}"
+            Console.WriteLine $"{asm.FullName} from {path}"
+        with err -> $"Invalid path: '{path}' / {err.GetType().Name} {err.Message}" |> Console.Error.WriteLine
     match args |> List.ofArray with
     | [] -> printfn "Usage: getName <pathsToDlls>"
     | ["read"] ->
         let rec loop() =
             let line = Console.ReadLine()
             if (not (line = null)) && line.Length > 0 then
-                printfn $"{line|>getName}"
+                line|>getName
                 loop()
         loop()
     | paths ->
         for path in paths do
-            printfn $"{getName path}"
+            getName path
     0
