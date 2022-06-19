@@ -5,7 +5,7 @@ let main args =
     let getName path =
         try
             let path = System.IO.Path.GetFullPath path
-            let asm = System.Reflection.Assembly.LoadFrom path
+            let asm = System.Reflection.Assembly.ReflectionOnlyLoadFrom path
             asm.FullName
         with err -> $"Invalid path: '{path}' / {err}"
     match args |> List.ofArray with
